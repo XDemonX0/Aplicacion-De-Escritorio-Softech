@@ -7,6 +7,7 @@ package com.mycompany.productos;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -18,7 +19,8 @@ import javax.swing.table.TableCellRenderer;
  * @author usuario
  */
 public class GestionEncabezadoTabla implements TableCellRenderer {
-    @Override
+    
+    private Font normal = new Font ("Monserrat", Font.PLAIN,18);
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
         JComponent jcomponent = null;
         
@@ -26,7 +28,8 @@ public class GestionEncabezadoTabla implements TableCellRenderer {
             jcomponent = new JLabel ((String) value);
             ((JLabel)jcomponent).setHorizontalAlignment(SwingConstants.CENTER);
             ((JLabel)jcomponent).setSize(80, jcomponent.getWidth());
-            ((JLabel)jcomponent).setPreferredSize(new Dimension(6, jcomponent.getWidth()));
+            ((JLabel)jcomponent).setFont(normal);
+            ((JLabel)jcomponent).setPreferredSize(new Dimension(550, jcomponent.getWidth()));
         }
         
         jcomponent.setBorder(javax.swing.BorderFactory.createMatteBorder(0,0,1,1, new java.awt.Color(255,255,255)));
@@ -34,10 +37,7 @@ public class GestionEncabezadoTabla implements TableCellRenderer {
         jcomponent.setBackground(new Color(148,215,242));
         jcomponent.setToolTipText("Tabla Seguimiento");
         jcomponent.setForeground(Color.BLACK);
-        
-       
-        
-        
+
         return jcomponent;
     }
 }

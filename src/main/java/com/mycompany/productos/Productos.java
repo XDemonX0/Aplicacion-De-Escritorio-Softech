@@ -6,16 +6,21 @@ package com.mycompany.productos;
 
 
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 
 
@@ -238,7 +243,8 @@ public class Productos {
               "join categoria c on p.categoria_id = c.id_categoria " +
               "join unidad_medida u on p.unidad_medida_id = u.id_unidad_medida " +
               "join embalaje e on p.embalaje_id = e.id_embalaje " +
-              "join marca m on p.marca_id = m.id_marca;" ;
+              "join marca m on p.marca_id = m.id_marca " +
+              "order by p.id_producto asc;";
 
         
         String[] datos = new String[16];
@@ -271,17 +277,31 @@ public class Productos {
             }
             paramMostrarProductos.setModel(modelo);
             
-            //JTableHeader th = paramMostrarProductos.getTableHeader();
-            //th.setDefaultRenderer(new GestionEncabezadoTabla());
+            JTableHeader th = paramMostrarProductos.getTableHeader();
+            th.setDefaultRenderer(new GestionEncabezadoTabla());
 
             // Configurar renderizador de celdas
             for (int i = 0; i < paramMostrarProductos.getColumnCount(); i++) {
-                if (i == 0 || i == 4 || i == 7 || i == 8 || i == 11) { // columnas numericas
+                if (i == 0 || i == 4 || i == 5 || i == 8 || i == 9 || i == 10 || i == 13) { // columnas numericas
                     paramMostrarProductos.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("numerico"));
                 } else {
                     paramMostrarProductos.getColumnModel().getColumn(i).setCellRenderer(new GestionCeldas("texto"));
                 }
             }
+            
+            TableColumnModel columnModel = paramMostrarProductos.getColumnModel();
+            for (int i = 0; i < columnNames.length; i++) {
+                int maxWidth = 1500;
+                for (int j = 0; j < modelo.getRowCount(); j++) {
+                    TableCellRenderer renderer = paramMostrarProductos.getCellRenderer(j, i);
+                    Component comp = paramMostrarProductos.prepareRenderer(renderer, j, i);
+                    int preferredWidth = comp.getPreferredSize().width;
+                    maxWidth = Math.max(maxWidth, preferredWidth);
+                }
+                columnModel.getColumn(i).setPreferredWidth(maxWidth);
+            }
+            paramMostrarProductos.revalidate();
+            paramMostrarProductos.repaint();
         } catch (Exception e) {
             
             JOptionPane.showMessageDialog(null, "No se pudo mostrar los registros, error: " +e.toString());

@@ -120,6 +120,7 @@ public class FormProductos extends javax.swing.JFrame {
         btnEditar = new javax.swing.JButton();
         btnActivar = new javax.swing.JButton();
         btnDesactivar = new javax.swing.JButton();
+        btnDesactivar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -159,7 +160,7 @@ public class FormProductos extends javax.swing.JFrame {
         });
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel6.setText("Unidad medida:");
+        jLabel6.setText("Unidad medida (para dimensiones de producto):");
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel7.setText("Embalaje:");
@@ -168,7 +169,7 @@ public class FormProductos extends javax.swing.JFrame {
         jLabel8.setText("Altura:");
 
         jLabel9.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel9.setText("Peso:");
+        jLabel9.setText("Peso (seguido de su unidad):");
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel10.setText("Imagen miniatura:");
@@ -179,7 +180,7 @@ public class FormProductos extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel12.setText("Descuento:");
 
-        jLabel13.setFont(new java.awt.Font("Agency FB", 0, 12)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel13.setText("Marca:");
 
         cmbFormUnidadMedida.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -251,7 +252,7 @@ public class FormProductos extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(73, 73, 73)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel16)
                     .addComponent(jLabel9)
@@ -265,7 +266,7 @@ public class FormProductos extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(jLabel8)
                     .addComponent(jLabel15)
-                    .addComponent(cmbFormCategoria, 0, 234, Short.MAX_VALUE)
+                    .addComponent(cmbFormCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtFormValorUnitario)
                     .addComponent(txtFormStock)
                     .addComponent(cmbFormUnidadMedida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -365,6 +366,7 @@ public class FormProductos extends javax.swing.JFrame {
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(10, 10));
 
+        tbProductos.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         tbProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -380,6 +382,7 @@ public class FormProductos extends javax.swing.JFrame {
         tbProductos.setGridColor(new java.awt.Color(255, 255, 255));
         tbProductos.setInheritsPopupMenu(true);
         tbProductos.setMaximumSize(new java.awt.Dimension(999999, 999999));
+        tbProductos.setPreferredSize(new java.awt.Dimension(5000, 10000));
         tbProductos.setRequestFocusEnabled(false);
         tbProductos.setRowHeight(80);
         tbProductos.setShowGrid(false);
@@ -397,7 +400,9 @@ public class FormProductos extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 817, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -443,6 +448,7 @@ public class FormProductos extends javax.swing.JFrame {
         });
 
         btnDesactivar.setBackground(new java.awt.Color(148, 215, 242));
+        btnDesactivar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnDesactivar.setText("DESACTIVAR");
         btnDesactivar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnDesactivar.setBorderPainted(false);
@@ -452,30 +458,44 @@ public class FormProductos extends javax.swing.JFrame {
             }
         });
 
+        btnDesactivar1.setBackground(new java.awt.Color(148, 215, 242));
+        btnDesactivar1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnDesactivar1.setText("LIMPIAR");
+        btnDesactivar1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDesactivar1.setBorderPainted(false);
+        btnDesactivar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesactivar1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(61, 61, 61)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnDesactivar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnActivar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11))
+                    .addComponent(btnDesactivar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(61, 61, 61))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap()
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnActivar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnDesactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnDesactivar1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -486,10 +506,10 @@ public class FormProductos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -571,6 +591,11 @@ public class FormProductos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFormAnchuraActionPerformed
 
+    private void btnDesactivar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesactivar1ActionPerformed
+        Productos objetoProducto = new Productos();
+        objetoProducto.LimpiarCampos(txtFormId, txtFormDescripcion, txtFormDescripcionLarga, cmbFormCategoria, txtFormValorUnitario, txtFormStock, cmbFormUnidadMedida, cmbFormEmbalaje, txtFormAltura, txtFormAnchura, txtFormPeso, txtFormImagenMini, txtFormGaleria, txtFormDescuento, cmbFormMarca, txtEstado);
+    }//GEN-LAST:event_btnDesactivar1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -613,6 +638,7 @@ public class FormProductos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActivar;
     private javax.swing.JButton btnDesactivar;
+    private javax.swing.JButton btnDesactivar1;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cmbFormCategoria;
