@@ -4,6 +4,8 @@
  */
 package com.mycompany.crud_clientes;
 
+import com.mycompany.crud_clientes.GestionEncabezadoTabla;
+import java.awt.Color;
 import java.sql.CallableStatement;
 import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
@@ -15,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -227,8 +230,8 @@ public class CCliente {
                 datos[8] = rs.getString(9);
                 datos[9] = rs.getString(10);
                 datos[10] = rs.getString(11);
-                String estado = rs.getString(12);
-                datos[11] = (estado.equals("1")) ? "Activo" : "Desactivado";
+                datos[11] = rs.getString(12);
+                
                 modelo.addRow(datos);
             }
             
@@ -237,7 +240,29 @@ public class CCliente {
             JOptionPane.showMessageDialog(null, "No se pudo mostrar los registros, error: "+e.toString());
         }
         
+        FormIntercalado c = new FormIntercalado();
         
+        
+        //Funciones adiciones:
+        //Cambiar color de la cabecera
+        JTableHeader Theader = pTablaClientesTotales.getTableHeader();
+        Theader.setBackground(Color.decode("#94D7F2"));
+        
+        //Desabilitar mover las cl¿olumnas
+        pTablaClientesTotales.getTableHeader().setReorderingAllowed(false);
+        
+        //No poder editar
+        pTablaClientesTotales.setDefaultEditor(Object.class, null);
+        
+        //El tamaño de lo header al hacer slide creo xdd
+        
+            Theader.setDefaultRenderer(new GestionEncabezadoTabla());
+        
+        //
+        for(int i = 0; i< pTablaClientesTotales.getColumnCount(); i++){
+        pTablaClientesTotales.getColumnModel().getColumn(i).setCellRenderer(c);
+        
+        }
     }
     
     public void SeleccionarCliente(JTable pTablaClientes, JTextField pIdCliente, JTextField pCorreo, JComboBox pTipoIdentificacion, JTextField pNumIdentificacionCliente, JTextField pNombreCliente, JTextField pApellidoCliente, JTextField pClaveCliente, JTextField pTelefonoCliente, JTextField pDirreccionCliente, JTextField pFechaNacimiento, JComboBox pCiudadId, JComboBox pEstado) {
@@ -261,7 +286,7 @@ public class CCliente {
             JOptionPane.showMessageDialog(null, "Fila no seleccionada");
         }
     } catch (Exception e) {
-       
+        JOptionPane.showMessageDialog(null, "Error de seleccion, error: " + e.toString());
     }
 }
 

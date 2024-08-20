@@ -3,6 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.crud_clientes;
+import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -21,6 +27,56 @@ public class FormCliente extends javax.swing.JFrame {
         
         CCliente objetoCliente = new CCliente();
         objetoCliente.MostrarClientes(tbTotalClientes);
+        
+        validarTextoNumero( " , ! ? ; : - @ # $ & ( ) [ ] { } | \\", txtNombreCliente, txtApellidoCliente,  txtCorreo,txtDireccionEntradaCliente );
+        validarNumero(false, txtNumeroIdentificacionCliente, txtClaveCliente, txtTelefonoCliente );
+        validarSoloTexto(" -", txtNombreCliente, txtApellidoCliente);
+
+    }
+    
+    public void validarTextoNumero(final String caracteresExcluidos, final JTextComponent... textComponents) {
+        for (JTextComponent textComponent : textComponents){
+            textComponent.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    char caracter = e.getKeyChar();
+                    if (!(Character.isDigit(caracter) || Character.isLetter(caracter) || caracter == ' ' || !caracteresExcluidos.contains(String.valueOf(caracter)))) {
+                        e.consume();
+                    }
+                }
+            });
+        }
+    }
+
+    public void validarNumero(final boolean permitirDecimal, final JTextField... textFields) {
+        for (JTextField textField : textFields){
+            textField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    char caracter = e.getKeyChar();
+                    if (!(Character.isDigit(caracter) || (permitirDecimal && caracter == '.'))) {
+                        e.consume();
+                    }
+                    if (caracter == '.' && textField.getText().contains(".")) {
+                        e.consume();
+                    }
+                }
+            });
+        }
+    }
+    
+    public static void validarSoloTexto(final String caracteresExcluidos, final JTextComponent... textComponents) {
+        for (JTextComponent textComponent : textComponents) {
+            textComponent.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    char caracter = e.getKeyChar();
+                    if (Character.isDigit(caracter) || (!Character.isLetter(caracter) && !caracteresExcluidos.contains(String.valueOf(caracter)))) {
+                        e.consume();
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -77,12 +133,15 @@ public class FormCliente extends javax.swing.JFrame {
 
         jLabel1.setText("ID Cliente");
 
+        txtId.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtId.setEnabled(false);
         txtId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdActionPerformed(evt);
             }
         });
 
+        txtCorreo.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCorreoActionPerformed(evt);
@@ -95,16 +154,22 @@ public class FormCliente extends javax.swing.JFrame {
 
         jLabel4.setText("Num Identificacion Cliente");
 
+        txtNumeroIdentificacionCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtNumeroIdentificacionCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNumeroIdentificacionClienteActionPerformed(evt);
             }
         });
 
+        txtTelefonoCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
+        txtClaveCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
         jLabel5.setText("Clave Cliente");
 
         jLabel6.setText("Telefono Cliente");
 
+        txtApellidoCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtApellidoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtApellidoClienteActionPerformed(evt);
@@ -113,14 +178,19 @@ public class FormCliente extends javax.swing.JFrame {
 
         jLabel7.setText("Apellido Cliente");
 
+        txtNombreCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
         jLabel8.setText("Nombre Cliente");
 
         jLabel9.setText("Direccion Entrega Cliente");
 
         jLabel10.setText("Ciudad ID");
 
+        txtDireccionEntradaCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
         jLabel11.setText("Estado");
 
+        txtFechaNacimientoCliente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtFechaNacimientoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFechaNacimientoClienteActionPerformed(evt);
@@ -129,6 +199,7 @@ public class FormCliente extends javax.swing.JFrame {
 
         jLabel12.setText("Fecha Nacimiento Cliente  (AAAA-MM-DD)");
 
+        txtCiudadId.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtCiudadId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Leticia", "Puerto Nariño", "La Chorrera", "La Pedrera", "Miriti - Paraná", "Tarapacá", "Puerto Alegría", "Puerto Arica", "Calamar", "Yavaraté", "Medellín", "Bello", "Itagüí", "Envigado", "Sabaneta", "Rionegro", "Apartadó", "Turbo", "Santa Fe de Antioquia", "Caldas", "Arauca", "Tame", "Saravena", "Fortul", "Arauquita" }));
         txtCiudadId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,36 +207,54 @@ public class FormCliente extends javax.swing.JFrame {
             }
         });
 
+        btnGuardar.setBackground(new java.awt.Color(148, 215, 242));
+        btnGuardar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnGuardar.setText("GUARDAR");
+        btnGuardar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnGuardar.setBorderPainted(false);
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
             }
         });
 
+        btnModificar.setBackground(new java.awt.Color(148, 215, 242));
+        btnModificar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnModificar.setText("MODIFICAR");
+        btnModificar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnModificar.setBorderPainted(false);
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModificarActionPerformed(evt);
             }
         });
 
+        btnActivar.setBackground(new java.awt.Color(148, 215, 242));
+        btnActivar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnActivar.setText("ACTIVAR");
+        btnActivar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnActivar.setBorderPainted(false);
         btnActivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActivarActionPerformed(evt);
             }
         });
 
+        txtTipoIdentificacionId.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtTipoIdentificacionId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CC", "TI", "CE", "PA", "NUIP", "RC", "NIT", "DI", "PE", "TE" }));
 
+        btnDesactivar.setBackground(new java.awt.Color(148, 215, 242));
+        btnDesactivar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnDesactivar.setText("DESACTIVAR");
+        btnDesactivar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDesactivar.setBorderPainted(false);
         btnDesactivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDesactivarActionPerformed(evt);
             }
         });
 
+        txtEstado.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
         txtEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,7 +262,11 @@ public class FormCliente extends javax.swing.JFrame {
             }
         });
 
+        btnVolver1.setBackground(new java.awt.Color(148, 215, 242));
+        btnVolver1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnVolver1.setText("Volver");
+        btnVolver1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnVolver1.setBorderPainted(false);
         btnVolver1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolver1ActionPerformed(evt);
@@ -226,67 +319,67 @@ public class FormCliente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTipoIdentificacionId, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTipoIdentificacionId, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNumeroIdentificacionCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNumeroIdentificacionCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtApellidoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtApellidoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtClaveCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtClaveCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTelefonoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTelefonoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDireccionEntradaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDireccionEntradaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtFechaNacimientoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFechaNacimientoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCiudadId, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCiudadId, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGuardar)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnModificar)
+                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnActivar)
+                .addComponent(btnActivar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDesactivar)
+                .addComponent(btnDesactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnVolver1)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addComponent(btnVolver1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Clientes"));
 
-        tbTotalClientes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        tbTotalClientes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         tbTotalClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -302,14 +395,17 @@ public class FormCliente extends javax.swing.JFrame {
         tbTotalClientes.setGridColor(new java.awt.Color(255, 255, 255));
         tbTotalClientes.setInheritsPopupMenu(true);
         tbTotalClientes.setMaximumSize(new java.awt.Dimension(999999, 999999));
-        tbTotalClientes.setPreferredSize(new java.awt.Dimension(3000, 3000));
-        tbTotalClientes.setRowHeight(50);
+        tbTotalClientes.setPreferredSize(new java.awt.Dimension(5000, 10000));
+        tbTotalClientes.setRowHeight(80);
         tbTotalClientes.setShowHorizontalLines(true);
         tbTotalClientes.getTableHeader().setResizingAllowed(false);
         tbTotalClientes.getTableHeader().setReorderingAllowed(false);
         tbTotalClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbTotalClientesMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tbTotalClientesMouseEntered(evt);
             }
         });
         jScrollPane1.setViewportView(tbTotalClientes);
@@ -344,11 +440,13 @@ public class FormCliente extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -408,6 +506,10 @@ public class FormCliente extends javax.swing.JFrame {
     private void tbTotalClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTotalClientesMouseClicked
         CCliente objetoCliente = new CCliente();
         objetoCliente.SeleccionarCliente(tbTotalClientes, txtId, txtCorreo, txtTipoIdentificacionId, txtNumeroIdentificacionCliente, txtNombreCliente, txtApellidoCliente, txtClaveCliente, txtTelefonoCliente, txtDireccionEntradaCliente, txtFechaNacimientoCliente, txtCiudadId, txtEstado);
+        if (evt.getClickCount() == 2) {
+        // Anula la acción del doble clic
+        evt.consume();
+        }
     }//GEN-LAST:event_tbTotalClientesMouseClicked
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -419,6 +521,10 @@ public class FormCliente extends javax.swing.JFrame {
     private void btnVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolver1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnVolver1ActionPerformed
+
+    private void tbTotalClientesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTotalClientesMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbTotalClientesMouseEntered
 
     /**
      * @param args the command line arguments
@@ -445,6 +551,7 @@ public class FormCliente extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
