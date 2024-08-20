@@ -28,7 +28,7 @@ public class FormCliente extends javax.swing.JFrame {
         CCliente objetoCliente = new CCliente();
         objetoCliente.MostrarClientes(tbTotalClientes);
         
-        validarTextoNumero( " , ! ? ; : - @ # $ & ( ) [ ] { } | \\", txtNombreCliente, txtApellidoCliente  );
+        validarTextoNumero( " , ! ? ; : - @ # $ & ( ) [ ] { } | \\", txtNombreCliente, txtApellidoCliente,  txtCorreo,txtDireccionEntradaCliente );
         validarNumero(false, txtNumeroIdentificacionCliente, txtClaveCliente, txtTelefonoCliente );
         validarSoloTexto(" -", txtNombreCliente, txtApellidoCliente);
 
