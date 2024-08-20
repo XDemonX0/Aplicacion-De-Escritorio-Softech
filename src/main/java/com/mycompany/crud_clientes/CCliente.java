@@ -4,6 +4,7 @@
  */
 package com.mycompany.crud_clientes;
 
+import com.mycompany.crud_clientes.GestionEncabezadoTabla;
 import java.awt.Color;
 import java.sql.CallableStatement;
 import java.sql.ParameterMetaData;
@@ -253,7 +254,9 @@ public class CCliente {
         //No poder editar
         pTablaClientesTotales.setDefaultEditor(Object.class, null);
         
-        //
+        //El tamaño de lo header al hacer slide creo xdd
+        
+            Theader.setDefaultRenderer(new GestionEncabezadoTabla());
         
         //
         for(int i = 0; i< pTablaClientesTotales.getColumnCount(); i++){
