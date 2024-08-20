@@ -3,6 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.crud_clientes;
+import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 /**
  *
@@ -21,6 +27,56 @@ public class FormCliente extends javax.swing.JFrame {
         
         CCliente objetoCliente = new CCliente();
         objetoCliente.MostrarClientes(tbTotalClientes);
+        
+        validarTextoNumero( " , ! ? ; : - @ # $ & ( ) [ ] { } | \\", txtNombreCliente, txtApellidoCliente  );
+        validarNumero(false, txtNumeroIdentificacionCliente, txtClaveCliente, txtTelefonoCliente );
+        validarSoloTexto(" -", txtNombreCliente, txtApellidoCliente);
+
+    }
+    
+    public void validarTextoNumero(final String caracteresExcluidos, final JTextComponent... textComponents) {
+        for (JTextComponent textComponent : textComponents){
+            textComponent.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    char caracter = e.getKeyChar();
+                    if (!(Character.isDigit(caracter) || Character.isLetter(caracter) || caracter == ' ' || !caracteresExcluidos.contains(String.valueOf(caracter)))) {
+                        e.consume();
+                    }
+                }
+            });
+        }
+    }
+
+    public void validarNumero(final boolean permitirDecimal, final JTextField... textFields) {
+        for (JTextField textField : textFields){
+            textField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    char caracter = e.getKeyChar();
+                    if (!(Character.isDigit(caracter) || (permitirDecimal && caracter == '.'))) {
+                        e.consume();
+                    }
+                    if (caracter == '.' && textField.getText().contains(".")) {
+                        e.consume();
+                    }
+                }
+            });
+        }
+    }
+    
+    public static void validarSoloTexto(final String caracteresExcluidos, final JTextComponent... textComponents) {
+        for (JTextComponent textComponent : textComponents) {
+            textComponent.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    char caracter = e.getKeyChar();
+                    if (Character.isDigit(caracter) || (!Character.isLetter(caracter) && !caracteresExcluidos.contains(String.valueOf(caracter)))) {
+                        e.consume();
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -136,6 +192,7 @@ public class FormCliente extends javax.swing.JFrame {
             }
         });
 
+        btnGuardar.setBackground(new java.awt.Color(148, 215, 242));
         btnGuardar.setText("GUARDAR");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,6 +200,7 @@ public class FormCliente extends javax.swing.JFrame {
             }
         });
 
+        btnModificar.setBackground(new java.awt.Color(148, 215, 242));
         btnModificar.setText("MODIFICAR");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,6 +208,7 @@ public class FormCliente extends javax.swing.JFrame {
             }
         });
 
+        btnActivar.setBackground(new java.awt.Color(148, 215, 242));
         btnActivar.setText("ACTIVAR");
         btnActivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,6 +218,7 @@ public class FormCliente extends javax.swing.JFrame {
 
         txtTipoIdentificacionId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CC", "TI", "CE", "PA", "NUIP", "RC", "NIT", "DI", "PE", "TE" }));
 
+        btnDesactivar.setBackground(new java.awt.Color(148, 215, 242));
         btnDesactivar.setText("DESACTIVAR");
         btnDesactivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,6 +233,7 @@ public class FormCliente extends javax.swing.JFrame {
             }
         });
 
+        btnVolver1.setBackground(new java.awt.Color(148, 215, 242));
         btnVolver1.setText("Volver");
         btnVolver1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -286,7 +347,7 @@ public class FormCliente extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Clientes"));
 
-        tbTotalClientes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        tbTotalClientes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         tbTotalClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -302,14 +363,17 @@ public class FormCliente extends javax.swing.JFrame {
         tbTotalClientes.setGridColor(new java.awt.Color(255, 255, 255));
         tbTotalClientes.setInheritsPopupMenu(true);
         tbTotalClientes.setMaximumSize(new java.awt.Dimension(999999, 999999));
-        tbTotalClientes.setPreferredSize(new java.awt.Dimension(3000, 3000));
-        tbTotalClientes.setRowHeight(50);
+        tbTotalClientes.setPreferredSize(new java.awt.Dimension(5000, 10000));
+        tbTotalClientes.setRowHeight(80);
         tbTotalClientes.setShowHorizontalLines(true);
         tbTotalClientes.getTableHeader().setResizingAllowed(false);
         tbTotalClientes.getTableHeader().setReorderingAllowed(false);
         tbTotalClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbTotalClientesMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tbTotalClientesMouseEntered(evt);
             }
         });
         jScrollPane1.setViewportView(tbTotalClientes);
@@ -408,6 +472,10 @@ public class FormCliente extends javax.swing.JFrame {
     private void tbTotalClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTotalClientesMouseClicked
         CCliente objetoCliente = new CCliente();
         objetoCliente.SeleccionarCliente(tbTotalClientes, txtId, txtCorreo, txtTipoIdentificacionId, txtNumeroIdentificacionCliente, txtNombreCliente, txtApellidoCliente, txtClaveCliente, txtTelefonoCliente, txtDireccionEntradaCliente, txtFechaNacimientoCliente, txtCiudadId, txtEstado);
+        if (evt.getClickCount() == 2) {
+        // Anula la acción del doble clic
+        evt.consume();
+        }
     }//GEN-LAST:event_tbTotalClientesMouseClicked
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -419,6 +487,10 @@ public class FormCliente extends javax.swing.JFrame {
     private void btnVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolver1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnVolver1ActionPerformed
+
+    private void tbTotalClientesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTotalClientesMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbTotalClientesMouseEntered
 
     /**
      * @param args the command line arguments
@@ -445,6 +517,7 @@ public class FormCliente extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

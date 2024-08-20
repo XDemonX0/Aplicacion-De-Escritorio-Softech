@@ -15,7 +15,7 @@ public class CConexion {
     
     String user = "root";
     String pass = "";
-    String db = "adso8com_softech_db";
+    String db = "softech_db";
     String ip = "localhost";
     String puerto = "3306";
     
